@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="sidenav">
+        <div class="login-main-text">
+            <img class="img-logo" src="assets/images/cua.png">
+            <h2>CUA Bank<br> Data Recipient Demo</h2>
+            <p>Login from here to access the dashboard.</p>
+        </div>
+    </div>
+    <div class="main">
+        <div class="col-md-6 col-sm-12">
+            <div class="login-form">
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                            required>
+                    </div>
+
+                    <button type="submit" [routerLink]="['/accounts']" class="btn btn-primary">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

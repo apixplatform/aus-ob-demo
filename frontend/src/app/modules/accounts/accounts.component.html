@@ -1,0 +1,126 @@
+<app-header></app-header>
+<div class="container vh-fill">
+    <div class="pt-5 text-center">
+        <h1>Linked Accounts</h1>
+    </div>
+
+    <div class="row pt-5">
+        <div class="col text-center">
+            <h6 *ngIf="accountTokens?.length === 0">There are no currently linked accounts.</h6>
+            <button type="button" class="btn btn-sm btn-link p-0 text-dark" data-toggle="modal"
+                data-target="#addAccountModal">Add Account ></button>
+        </div>
+    </div>
+    <div class="row pt-2" *ngIf="accountTokens?.length !== 0">
+        <div class="col">
+            <table class="table table-bordered table-light">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Account ID</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Current Balance</th>
+                        <th scope="col">Available Balance</th>
+                        <th scope="col">Currency</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let account of accountData; let i = index">
+                        <th scope="row">{{account?.accountId}}</th>
+                        <td>{{account?.nickname}}</td>
+                        <td>{{account?.openStatus}}</td>
+                        <td>{{accountBalances[i]?.currentBalance}}</td>
+                        <td>{{accountBalances[i]?.availableBalance}}</td>
+                        <td>{{accountBalances[i]?.currency}}</td>
+                        <td>
+                            <button (click)="loadTransactions(i, account?.accountId)" type="button"
+                                class="btn btn-sm btn-link p-0" data-toggle="modal"
+                                data-target="#transactionsModal">View Transactions
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Account Modal -->
+<div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mx-auto">Choose Bank</h5>
+            </div>
+            <div class="modal-body container">
+                <div class="row mx-auto pb-1">
+                    <img class="img img-fluid my-auto h-2em pl-4 pr-2em" src="assets/images/cua.png">
+                    <button type="button" class="btn btn-info" (click)="goToConsentFlow()">
+                        CUA Bank
+                    </button>
+                </div>
+                <div class="row mx-auto pb-1">
+                    <img class="img img-fluid my-auto h-1em px-3" src="assets/images/anz.png">
+                    <button type="button" class="btn btn-dark" disabled>
+                        ANZ Bank
+                    </button>
+                </div>
+                <div class="row mx-auto pb-1">
+                    <img class="img img-fluid my-auto h-2em pl-1 pr-2" src="assets/images/mystate.png">
+                    <button type="button" class="btn btn-dark" disabled>
+                        MyState Bank
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Transactions modal -->
+<div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Transactions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Transaction ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Currency</th>
+                            <th scope="col">Reference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let transaction of accountTransactions">
+                            <td>{{ transaction.transactionId }}</td>
+                            <td>{{ transaction.postingDateTime }}</td>
+                            <td>{{ transaction.type }}</td>
+                            <td>{{ transaction.status }}</td>
+                            <td>{{ transaction.description }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.currency }}</td>
+                            <td>{{ transaction.reference }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
