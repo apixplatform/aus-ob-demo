@@ -74,6 +74,7 @@ export class BankingAccount {
     maskedNumber: string;
     productCategory: string;
     productName: string;
+    token?: string;
 }
 
 export class LinksPaginated {

@@ -13,10 +13,18 @@ export class CdsService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * calls local backend to get jwt encoded Client Assertion
+   */
   getJwtToken(): Observable<any> {
     return this.http.get(hardcoded.apiRoutes.jwtTokenUrl, { responseType: 'text' });
   }
 
+  /**
+   * Get bearer token by posting to this endpoint.
+   * @param code the account access code from Identity Server
+   * @param jwtToken the client assertion
+   */
   getAccountToken(code: string, jwtToken: string): Observable<any> {
     const params: HttpParams = new HttpParams()
       .set('grant_type', 'authorization_code')
@@ -29,6 +37,10 @@ export class CdsService {
     return this.http.post(hardcoded.apiRoutes.accessTokenUrl, null, { params });
   }
 
+  /**
+   * Hit /accounts endpoint
+   * @param token the bearer token
+   */
   getAccounts(token: string): Observable<ResponseBankingAccountList> {
     const headers: HttpHeaders = new HttpHeaders()
       .set('Authorization', 'Bearer ' + token);
@@ -36,6 +48,11 @@ export class CdsService {
     return this.http.get(hardcoded.apiRoutes.apiBaseUrl, { headers }) as any;
   }
 
+  /**
+   * Hit /balance endpoint for a particular *accountId*.
+   * @param token the bearer token
+   * @param accountId ID of the account to get balance of
+   */
   getAccountBalance(token: string, accountId: string): Observable<ResponseBankingAccountsBalanceById> {
     const headers: HttpHeaders = new HttpHeaders()
       .set('Authorization', 'Bearer ' + token);
@@ -43,6 +60,11 @@ export class CdsService {
     return this.http.get(hardcoded.apiRoutes.apiBaseUrl + '/' + accountId + '/balance', { headers }) as any;
   }
 
+  /**
+   * Hit /transaction endpoint for a particular *accountId*.
+   * @param token the bearer token
+   * @param accountId ID of the account to get balance of
+   */
   getTransactionsForAccount(token: string, accountId: string): Observable<ResponseBankingTransactionList> {
     const headers: HttpHeaders = new HttpHeaders()
       .set('Authorization', 'Bearer ' + token);

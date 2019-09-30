@@ -34,7 +34,7 @@
                         <td>{{accountBalances[i]?.availableBalance}}</td>
                         <td>{{accountBalances[i]?.currency}}</td>
                         <td>
-                            <button (click)="loadTransactions(i, account?.accountId)" type="button"
+                            <button (click)="loadTransactions(account?.accountId, account?.token)" type="button"
                                 class="btn btn-sm btn-link p-0" data-toggle="modal"
                                 data-target="#transactionsModal">View Transactions
                             </button>
