@@ -34,6 +34,7 @@ export class CdsService {
       .set('client_assertion_type', 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer')
       .set('client_assertion', jwtToken);
 
+    console.log(`token request: ${JSON.stringify(params, undefined, 2)}`)
     return this.http.post(hardcoded.apiRoutes.accessTokenUrl, null, { params });
   }
 

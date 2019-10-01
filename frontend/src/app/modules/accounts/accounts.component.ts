@@ -44,11 +44,11 @@ export class AccountsComponent implements OnInit {
 
       // get client assertion
       this.cdsService.getJwtToken().subscribe(jwtToken => {
-        console.log('jwtToken', jwtToken);
+        console.log('clientAssertion: ', jwtToken);
 
         // post code and client assertion to get account access token
         this.cdsService.getAccountToken(this.code, jwtToken).subscribe(response => {
-          console.log(response);
+          console.log(`token response: ${JSON.stringify(response, undefined, 2)}`);
           if (!this.accountTokens.includes(response.access_token)) {  // if the token is not already in the array
             this.accountTokens.push(response.access_token);           // push the new access token to the array of account tokens
           }
@@ -70,7 +70,7 @@ export class AccountsComponent implements OnInit {
   loadData() {
     this.accountTokens.forEach(token => {
       this.cdsService.getAccounts(token).subscribe(accountList => {   // get all the accounts from all the tokens in the
-        console.log(accountList);                                     // accountToken array
+        console.log('GET /banking/accounts: ', JSON.stringify(accountList, undefined, 2));                                     // accountToken array
 
         accountList.data.accounts.forEach(account => {                // store the token with the account details to call later
           account.token = token;
@@ -78,10 +78,11 @@ export class AccountsComponent implements OnInit {
 
         this.accountData = this.accountData.concat(accountList.data.accounts);           // add the account details to the account data array
 
-        console.log(this.accountData);
+        // console.log(this.accountData);
 
         this.accountData.forEach((account, index) => {                // load balances from all accounts in the account data array
           this.cdsService.getAccountBalance(token, account.accountId).subscribe(balance => {
+            console.log(`GET /banking/accounts/${account.accountId}/balance: `, JSON.stringify(balance, undefined, 2));
             this.accountBalances.push(balance.data);                  // push each balance to the accountBalance array
                                                                       // this array is 1:1 with accountData array
             if (index === this.accountData.length - 1) {              // i.e. balance of accountData[i] is accountBalance[i]
@@ -107,7 +108,7 @@ export class AccountsComponent implements OnInit {
       let code = href.slice(startPos);                                // slice the url from there to the end of the url
       const endPos: number = href.slice(startPos).search('&');        // record the position of the next '&' (i.e. the end of the parameter)
       code = code.slice(0, endPos);                                   // slice the url and get the code
-      console.log('code', code);
+      console.log('code: ', code);
       return code;                                                    // return it
     }
 
@@ -117,6 +118,7 @@ export class AccountsComponent implements OnInit {
   /** Utility function that redirects to Identity Server consent flow using hardcoded route from hardcoded.json */
   goToConsentFlow() {
     this.blockUI.start();
+    console.log(`authorizeUrl: ${hardcoded.apiRoutes.requestAuthCodeUrl}`);
     window.location.href = hardcoded.apiRoutes.requestAuthCodeUrl;
   }
 
@@ -129,7 +131,7 @@ export class AccountsComponent implements OnInit {
     this.blockUI.start();
     if (token) {
       this.cdsService.getTransactionsForAccount(token, accountId).subscribe(transactionList => {  // call transactions endpoint
-        console.log(transactionList);                                                             // get list
+        console.log(`GET /banking/accounts/${accountId}/transactions: `, JSON.stringify(transactionList, undefined, 2));                                                             // get list
 
         transactionList.data.transactions.forEach(transaction => {
           transaction.postingDateTime = new Date(transaction.postingDateTime).toLocaleDateString(); // format Date for readability
