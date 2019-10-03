@@ -93,10 +93,10 @@ app.get('/authRequest', (req, res) => {
       }
     },
     "response_type": "code id_token",
-    "redirect_uri": "http://localhost:4200",
+    "redirect_uri": "http://localhost:4200/accounts",
     "state": "YWlzcDozMTQ2",
     "nonce": "n-0S6_WzA2M",
-    "client_id": "__VNF_K3ie4cG6W1yaQ9iiDI2bMa"
+    "client_id": "z15EytHsjcf250SkdD8uVekFCSUa"
   }
   var token = jwt.sign(jwtBody, privateKey, { algorithm: 'PS256' });
   res.send(token);
