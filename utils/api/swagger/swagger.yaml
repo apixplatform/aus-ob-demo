@@ -221,13 +221,13 @@ definitions:
         type: string
       aud:
         type: string
-        example: https://3.17.186.155:8243/token
+        example: https://cua.wso2support.com:8243/token
 
   Uri:
     properties:
       aud:
         type: string
-        example: https://3.17.186.155:8243/token
+        example: https://cua.wso2support.com:8243/token
       response_type:
         type: string
         example: code id_token
