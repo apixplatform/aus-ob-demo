@@ -1,0 +1,20 @@
+{
+    "frontend": {
+        "baseUrl": "https://demo.services.cua.oip.virtusa.dev",
+        "redirectUrl": "/accounts"
+    },
+    "backend": {
+        "baseUrl": "https://demo-be.services.cua.oip.virtusa.dev",
+        "clientAssertionEndpoint": "/generate-client-assertion",
+        "authorizeUrlEndpoint": "/generate-authorize-uri"
+    },
+    "ob": {
+        "clientId": "plQPZeMZO7C6EeiOLjtLwaafVMca",
+        "baseUrl": "https://cua.wso2support.com:8243",
+        "tokenEndpoint": "/token",
+        "accountsEndpoint": "/cds-au/v1/banking/accounts"
+    },
+    "apiRoutes": {
+        "apiBaseUrl": "https://18.221.135.54:8243/cds-au/v1/banking/accounts"
+    }
+}

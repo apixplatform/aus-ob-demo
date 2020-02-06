@@ -1,0 +1,368 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "0.0.1",
+      "title": "CDR Demo Backend"
+    },
+    "host": "demo-be.services.cua.oip.virtusa.dev",
+    "basePath": "/",
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/generate-ssa": {
+        "x-swagger-router-controller": "utils_controller",
+        "post": {
+          "description": "Generates SSA",
+          "operationId": "generateSsa",
+          "parameters": [
+            {
+              "name": "content",
+              "in": "body",
+              "description": "Input as json.",
+              "schema": {
+                "$ref": "#/definitions/Ssa"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/SuccessResponse"
+              }
+            },
+            "default": {
+              "description": "Error",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponse"
+              }
+            }
+          }
+        }
+      },
+      "/generate-dcr-request": {
+        "x-swagger-router-controller": "utils_controller",
+        "post": {
+          "description": "Generates DCR Request",
+          "operationId": "generateDcrRequest",
+          "parameters": [
+            {
+              "name": "content",
+              "in": "body",
+              "description": "Input as json.",
+              "schema": {
+                "$ref": "#/definitions/Dcr"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/SuccessResponse"
+              }
+            },
+            "default": {
+              "description": "Error",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponse"
+              }
+            }
+          }
+        }
+      },
+      "/generate-client-assertion": {
+        "x-swagger-router-controller": "utils_controller",
+        "post": {
+          "description": "Generates Client Assertion",
+          "operationId": "generateClientAssertion",
+          "parameters": [
+            {
+              "name": "content",
+              "in": "body",
+              "description": "Input as json.",
+              "schema": {
+                "$ref": "#/definitions/Assertion"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/SuccessResponse"
+              }
+            },
+            "default": {
+              "description": "Error",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponse"
+              }
+            }
+          }
+        }
+      },
+      "/generate-authorize-uri": {
+        "x-swagger-router-controller": "utils_controller",
+        "post": {
+          "description": "Generates Client Assertion",
+          "operationId": "generateAuthorizeUri",
+          "parameters": [
+            {
+              "name": "content",
+              "in": "body",
+              "description": "Input as json.",
+              "schema": {
+                "$ref": "#/definitions/Uri"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "$ref": "#/definitions/SuccessResponse"
+              }
+            },
+            "default": {
+              "description": "Error",
+              "schema": {
+                "$ref": "#/definitions/ErrorResponse"
+              }
+            }
+          }
+        }
+      },
+      "/swagger": {
+        "x-swagger-pipe": "swagger_raw"
+      }
+    },
+    "definitions": {
+      "HelloWorldResponse": {
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "Ssa": {
+        "properties": {
+          "iss": {
+            "type": "string",
+            "example": "cdr-register"
+          },
+          "org_id": {
+            "type": "string",
+            "example": "3B0B0A7B-3E7B-4A2C-9497-E357A71D07C8"
+          },
+          "org_name": {
+            "type": "string",
+            "example": "Mock Company Inc."
+          },
+          "client_name": {
+            "type": "string",
+            "example": "Mock Software"
+          },
+          "client_description": {
+            "type": "string",
+            "example": "A mock software product for testing SSA"
+          },
+          "client_uri": {
+            "type": "string",
+            "example": "https://www.mockcompany.com.au"
+          },
+          "redirect_uris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "https://www.google.com/redirects/redirect1",
+              "https://www.google.com/redirects/redirect2",
+              "https://demo.services.cua.oip.virtusa.dev/accounts"
+            ]
+          },
+          "logo_uri": {
+            "type": "string",
+            "example": "https://www.mockcompany.com.au/logos/logo1.png"
+          },
+          "tos_uri": {
+            "type": "string",
+            "example": "https://www.mockcompany.com.au/tos.html"
+          },
+          "policy_uri": {
+            "type": "string",
+            "example": "https://www.mockcompany.com.au/policy.html"
+          },
+          "jwks_uri": {
+            "type": "string",
+            "example": "https://keystore.openbankingtest.org.uk/0015800001HQQrZAAX/sFgki72OiqwZNFOZg6Oaji.jwks"
+          },
+          "revocation_uri": {
+            "type": "string",
+            "example": "https://keystore.openbankingtest.org.uk/0015800001HQQrZAAX/revoked/KbkypAGp5lVefGebfcXM17.jwks"
+          },
+          "software_roles": {
+            "type": "string",
+            "example": "data-recipient-software-product"
+          },
+          "scope": {
+            "type": "string",
+            "example": "bank:accounts.basic:read bank:accounts.detail:read bank:transactions:read bank:payees:read bank:regular_payments:read common:customer.basic:read common:customer.detail:read cdr:registration"
+          }
+        }
+      },
+      "Dcr": {
+        "properties": {
+          "iss": {
+            "type": "string",
+            "example": "Mock Company"
+          },
+          "aud": {
+            "type": "string",
+            "example": "https://www.infosec.cdr.gov.au/token"
+          },
+          "redirect_uris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "https://www.google.com/redirects/redirect1",
+              "https://www.google.com/redirects/redirect2",
+              "https://demo.services.cua.oip.virtusa.dev/accounts"
+            ]
+          },
+          "grant_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "authorization_code",
+              "refresh_token",
+              "urn:ietf:params:oauth:grant-type:jwt-bearer"
+            ]
+          },
+          "response_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "code id_token"
+            ]
+          },
+          "application_type": {
+            "type": "string",
+            "example": "web"
+          },
+          "software_statement": {
+            "type": "string"
+          }
+        }
+      },
+      "Assertion": {
+        "properties": {
+          "iss": {
+            "type": "string"
+          },
+          "aud": {
+            "type": "string",
+            "example": "https://cua.wso2support.com:8243/token"
+          }
+        }
+      },
+      "Uri": {
+        "properties": {
+          "aud": {
+            "type": "string",
+            "example": "https://cua.wso2support.com:8243/token"
+          },
+          "response_type": {
+            "type": "string",
+            "example": "code id_token"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string",
+            "example": "https://www.google.com/redirects/redirect1"
+          },
+          "scope": {
+            "type": "string",
+            "example": "openid bank:accounts.basic:read bank:accounts.detail:read bank:transactions:read bank:payees:read bank:regular_payments:read common:customer.basic:read common:customer.detail:read"
+          },
+          "state": {
+            "type": "string",
+            "example": "suite"
+          },
+          "claims": {
+            "$ref": "#/definitions/Claim"
+          }
+        }
+      },
+      "Claim": {
+        "properties": {
+          "sharing_duration": {
+            "type": "number",
+            "example": 60000
+          },
+          "id_token": {
+            "$ref": "#/definitions/IdToken"
+          }
+        }
+      },
+      "IdToken": {
+        "properties": {
+          "acr": {
+            "$ref": "#/definitions/Acr"
+          }
+        }
+      },
+      "Acr": {
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "urn:cds.au:cdr:3"
+            ]
+          }
+        }
+      }
+    }
+  }
