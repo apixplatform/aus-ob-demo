@@ -90,7 +90,7 @@ function generateAuthorizeUri(req, res) {
     context.app.get('DCR_KID_VALUE')
   ).then(function (data){
 
-    var uri = "https://3.17.186.155:8243/authorize/?request=" + data + "&response_type=code%20id_token&client_id=" + req.body.client_id + "&scope=openid%20bank:accounts.basic :read%20bank:accounts.detail:read%20bank:transactions:read%20bank:payees:re ad%20bank:regular_payments:read%20common:customer.basic:read%20common :customer.detail:read&redirect_uri=" + req.body.redirect_uri;
+    var uri = "https://" + context.app.get('WSO2_HOST') + ":" + context.app.get('WSO2_PORT') + "/authorize/?request=" + data + "&response_type=code%20id_token&client_id=" + req.body.client_id + "&scope=openid%20bank:accounts.basic :read%20bank:accounts.detail:read%20bank:transactions:read%20bank:payees:re ad%20bank:regular_payments:read%20common:customer.basic:read%20common :customer.detail:read&redirect_uri=" + req.body.redirect_uri;
     res.json({ data: uri });
   }).catch(function (err){
     console.log(err);
