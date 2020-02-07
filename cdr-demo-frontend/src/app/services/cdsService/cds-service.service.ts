@@ -88,7 +88,10 @@ export class CdsService {
    */
   getAccounts(token: string): Observable<ResponseBankingAccountList> {
     const headers: HttpHeaders = new HttpHeaders()
-      .set('Authorization', 'Bearer ' + token);
+      .set('Authorization', 'Bearer ' + token)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-v', 'v1');
 
     return this.http.get(hardcoded.ob.baseUrl + hardcoded.ob.accountsEndpoint, { headers }) as any;
   }
@@ -100,7 +103,10 @@ export class CdsService {
    */
   getAccountBalance(token: string, accountId: string): Observable<ResponseBankingAccountsBalanceById> {
     const headers: HttpHeaders = new HttpHeaders()
-      .set('Authorization', 'Bearer ' + token);
+      .set('Authorization', 'Bearer ' + token)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-v', 'v1');
 
     return this.http.get(hardcoded.ob.baseUrl + hardcoded.ob.accountsEndpoint + '/' + accountId + '/balance', { headers }) as any;
   }
@@ -112,7 +118,10 @@ export class CdsService {
    */
   getTransactionsForAccount(token: string, accountId: string): Observable<ResponseBankingTransactionList> {
     const headers: HttpHeaders = new HttpHeaders()
-      .set('Authorization', 'Bearer ' + token);
+      .set('Authorization', 'Bearer ' + token)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-v', 'v1');
 
     return this.http.get(hardcoded.ob.baseUrl + hardcoded.ob.accountsEndpoint + '/' + accountId + '/transactions', { headers }) as any;
   }
