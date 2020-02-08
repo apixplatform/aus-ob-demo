@@ -1,6 +1,35 @@
 .img-logo {
-    height: 2.5em;
+    height: 3.5em;
 }
 .navbar {
     background-color: #122b50;
+}
+
+.navbar {
+    background-color: #f8f8f8;
+    border-style: solid;
+    border-width: 0px 0px 0px 0px;
+    border-color: #00b1c2;
+    /* border-bottom: 5px solid #e4e5e7; */
+}
+
+h2 {
+    color: black !important;
+}
+
+* {
+    font-family: 'OswaldLight', Arial, Helvetica, sans-serif;
+}
+
+button {
+    height: 3.5em;
+    border: 0px;
+    border-radius: 0px;
+    background-color: #f8f8f8;
+}
+
+button:hover {
+    border: 0px;
+    background-color: #f8f8f8 !important;
+    color: #00b1c2;
 }

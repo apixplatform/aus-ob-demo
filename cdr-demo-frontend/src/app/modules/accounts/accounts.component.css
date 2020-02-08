@@ -13,3 +13,28 @@
 .pull-up {
     margin-top: -0.3em;
 }
+
+
+* {
+    font-family: 'OswaldLight', Arial, Helvetica, sans-serif;
+}
+
+.plus {
+    color: #007bff !important;
+}
+
+button:hover {
+    /* border: 0px;
+    background-color: #fff !important;
+    color: #00b1c2; */
+
+}
+
+.square {
+    border-radius: 0px;
+    width: 150px;
+}
+
+.square-close {
+    border-radius: 0px;
+}

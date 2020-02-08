@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import './assets/css/font-oswald.css';
 body { 
-    background: 
+    /* background:  */
         /* linear-gradient(#000000, #485461), */
-        url(assets/images/bg.jpg) no-repeat center center fixed; 
+        /* url(assets/images/bg.jpg) no-repeat center center fixed;  */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
