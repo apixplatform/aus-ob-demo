@@ -108,6 +108,8 @@ export class CdsService {
       .set('Accept', 'application/json')
       .set('x-v', 'v1');
 
+      accountId = "30080012343456";
+
     return this.http.get(hardcoded.ob.baseUrl + hardcoded.ob.accountsEndpoint + '/' + accountId + '/balance', { headers }) as any;
   }
 
@@ -122,6 +124,8 @@ export class CdsService {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-v', 'v1');
+
+    accountId = "30080012343456";
 
     return this.http.get(hardcoded.ob.baseUrl + hardcoded.ob.accountsEndpoint + '/' + accountId + '/transactions', { headers }) as any;
   }

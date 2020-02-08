@@ -16,6 +16,8 @@ import { HeaderComponent } from './components/header/header.component';
 // External
 import { BlockUIModule } from 'ng-block-ui';
 
+import { ChartsModule } from 'ng2-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,8 +30,9 @@ import { BlockUIModule } from 'ng-block-ui';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    ChartsModule,
     BlockUIModule.forRoot({
-      message: 'Loading, please wait...'
+      message: 'Loading, Please wait...'
     })
   ],
   providers: [],

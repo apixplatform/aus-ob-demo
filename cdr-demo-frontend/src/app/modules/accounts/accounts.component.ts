@@ -11,6 +11,8 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { BankingAccount, BankingBalance, BankingTransaction } from 'src/app/models/models';
 import * as hardcoded from 'src/assets/config/property.json';
 
+import { ChartType, ChartOptions } from 'chart.js';
+
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.component.html',
@@ -25,13 +27,162 @@ export class AccountsComponent implements OnInit {
   accountBalances: Array<BankingBalance> = [];
   accountTransactions: Array<BankingTransaction> = [];
 
+  myStateAccountData: Array<BankingAccount> = [];
+  anzAccountData: Array<BankingAccount> = [];
+
   code: string; // auth code from params
+
+  private fontFamily: string = "OswaldLight";
+  private titleFontFamily: string = "OswaldLight";
+
+  // Pie
+  public pieChartOptions = {
+    responsive: true,
+    defaultFontFamily: this.fontFamily,
+    title: {
+      display: true,
+      text: "Current Available Balances",
+      fontFamily: this.fontFamily
+    },
+    legend: {
+      position: 'bottom',
+      labels: {
+        fontFamily: this.fontFamily
+      }
+    },
+    plugins: {
+      datalabels: {
+        formatter: (value, ctx) => {
+          const label = ctx.chart.data.labels[ctx.dataIndex];
+          return label;
+        },
+      },
+    },
+    tooltips: {
+      titleFontFamily: this.titleFontFamily,
+      bodyFontFamily: this.fontFamily
+    }
+  };
+  public pieChartLabels: string[] = ["ANZ", "MyState"];
+  public pieChartData: number[] = [888476.89, 789496.11];
+  public pieChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartColors = [
+    {
+      backgroundColor: ['rgba(0,125,186,0.8)', 'rgba(97,187,71, 0.8)'],
+    },
+  ];
+
+  public barChartOptions = {
+    responsive: true,
+    defaultFontFamily: this.fontFamily,
+    // We use these empty structures as placeholders for dynamic theming.
+    legend: {
+      position: 'bottom',
+      labels: {
+        fontFamily: this.fontFamily
+      }
+    },
+    title: {
+      display: true,
+      text: "Historical Total Available Balance",
+      fontFamily: this.fontFamily
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          fontFamily: this.fontFamily
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          fontFamily: this.fontFamily
+        },
+      }]
+    },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+      }
+    },
+    labels: {
+      fontFamily: this.fontFamily
+    },
+    tooltips: {
+      titleFontFamily: this.titleFontFamily,
+      bodyFontFamily: this.fontFamily
+    }
+  };
+  public barChartLabels= ['Aug 19', 'Sep 19', 'Oct 19', 'Nov 19', 'Dec 19', 'Jan 20', 'Feb 20'];
+  public barChartType = 'bar';
+  public barChartLegend = true;
+
+  public barChartData = [
+    { 
+      data: [1637972, 1077972, 677972, 1611972, 1344972, 1655972, 1677972], 
+      label: 'Total Available Balance',
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)',
+        'rgba(255, 19, 64, 0.5)'
+      ],
+      hoverBackgroundColor: [
+        'rgba(255, 99, 132, 0.7)',
+        'rgba(54, 162, 235, 0.7)',
+        'rgba(255, 206, 86, 0.7)',
+        'rgba(75, 192, 192, 0.7)',
+        'rgba(153, 102, 255, 0.7)',
+        'rgba(255, 159, 64, 0.7)',
+        'rgba(255, 19, 64, 0.7)'
+      ]
+    }
+  ];
 
   constructor(
     private cdsService: CdsService
   ) { }
 
   ngOnInit() {
+    this.anzAccountData = [
+
+      {
+        accountId: "17648",
+        creationDate: "asdasdsa",
+        displayName: "asdassad",
+        nickname: "asdsad",
+        openStatus: "OPEN",
+        isOwned: true,
+        maskedNumber: "sadsadasd",
+        productCategory: "asdasda",
+        productName: "fsaaf"
+        
+      }
+  
+    ];
+
+    this.myStateAccountData = [
+
+      {
+        accountId: "17648",
+        creationDate: "asdasdsa",
+        displayName: "asdassad",
+        nickname: "asdsad",
+        openStatus: "OPEN",
+        isOwned: true,
+        maskedNumber: "sadsadasd",
+        productCategory: "asdasda",
+        productName: "fsaaf"
+        
+      }
+  
+    ];
+
+    localStorage.removeItem('accountTokens');
     // check localStorage for existing accountTokens array
     if (localStorage.getItem('accountTokens')) {
       this.accountTokens = JSON.parse(localStorage.getItem('accountTokens'));
@@ -52,6 +203,7 @@ export class AccountsComponent implements OnInit {
           if (!this.accountTokens.includes(response.access_token)) {  // if the token is not already in the array
             this.accountTokens.push(response.access_token);           // push the new access token to the array of account tokens
           }
+
           localStorage.setItem('accountTokens', JSON.stringify(this.accountTokens));  // finally, update localStorage
 
           this.loadData();  // call CDR APIs and load data into frontend
@@ -84,7 +236,7 @@ export class AccountsComponent implements OnInit {
           this.cdsService.getAccountBalance(token, account.accountId).subscribe(balance => {
             console.log(`GET /banking/accounts/${account.accountId}/balance: `, JSON.stringify(balance, undefined, 2));
             this.accountBalances.push(balance.data);                  // push each balance to the accountBalance array
-                                                                      // this array is 1:1 with accountData array
+            this.addAccount(+balance.data.availableBalance);                                  // this array is 1:1 with accountData array
             if (index === this.accountData.length - 1) {              // i.e. balance of accountData[i] is accountBalance[i]
               this.blockUI.stop();
             }
@@ -144,6 +296,14 @@ export class AccountsComponent implements OnInit {
         this.blockUI.stop();
       });
     }
+  }
+
+  addAccount(availableBalance: number) {
+    this.pieChartLabels.push('CUA');
+    this.pieChartData.push(availableBalance);
+    this.pieChartColors[0].backgroundColor.push('rgba(0,177,194, 0.8)');
+    this.barChartData[0].data[(this.barChartData[0].data).length-1] = this.barChartData[0].data[(this.barChartData[0].data).length-1] + availableBalance;
+    this.barChartData[0].data.push(availableBalance);
   }
 
 }

@@ -1,16 +1,72 @@
 <app-header></app-header>
 <div class="container vh-fill">
-    <div class="pt-5 text-center">
-        <h1>Linked Accounts</h1>
-    </div>
+    <!-- <div class="pt-5 text-center">
+         <h1>Linked Accounts</h1>
+    </div> -->
 
-    <div class="row pt-5">
-        <div class="col text-center">
-            <h6 *ngIf="accountTokens?.length === 0">There are no currently linked accounts.</h6>
-            <button type="button" class="btn btn-sm btn-link p-0 text-dark" data-toggle="modal"
-                data-target="#addAccountModal">Add Account ></button>
+
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col">
+            <h2>Available Balances</h2><br/>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <div>
+                <div>
+                <div style="display: block">
+                    <canvas baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType"
+                    >
+                    </canvas>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div>
+                <div class="chart">
+                    <canvas baseChart
+                    [data]="pieChartData"
+                    [labels]="pieChartLabels"
+                    [chartType]="pieChartType"
+                    [options]="pieChartOptions"
+                    [plugins]="pieChartPlugins"
+                    [colors]="pieChartColors"
+                    [legend]="pieChartLegend">
+                    </canvas>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br/>
+    <div class="row">
+        <div class="col">
+            <h2>Account Details</h2>
+
+                <!-- <button type="button" class="btn btn-sm btn-link p-0" data-toggle="modal"
+                data-target="#addAccountModal">Add Account+</button> -->
+                <button type="button" class="btn btn-sm btn-link p-0" (click)="addAccount(10234567)">Add Account+</button>
+        </div> 
+    </div>
+    <br/>
+
+    <div class="row" *ngIf="accountTokens?.length !== 0">
+        <div class="col">
+            <h4>CUA Bank</h4>
+        </div> 
+    </div>
+
     <div class="row pt-2" *ngIf="accountTokens?.length !== 0">
         <div class="col">
             <table class="table table-bordered table-light">
@@ -44,6 +100,89 @@
             </table>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <h4>ANZ Bank</h4>
+        </div> 
+    </div>
+
+    <div class="row pt-2">
+        <div class="col">
+            <table class="table table-bordered table-light">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Account ID</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Current Balance</th>
+                        <th scope="col">Available Balance</th>
+                        <th scope="col">Currency</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let account of anzAccountData; let i = index">
+                        <th scope="row">{{account?.accountId}}</th>
+                        <td>{{account?.nickname}}</td>
+                        <td>{{account?.openStatus}}</td>
+                        <td>888456.89</td>
+                        <td>888476.89</td>
+                        <td>AUD</td>
+                        <td>
+                            <button type="button"
+                                class="btn btn-sm btn-link p-0" data-toggle="modal"
+                                >View Transactions
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h4>MyState Bank</h4>
+        </div> 
+    </div>
+
+    <div class="row pt-2">
+        <div class="col">
+            <table class="table table-bordered table-light">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Account ID</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Current Balance</th>
+                        <th scope="col">Available Balance</th>
+                        <th scope="col">Currency</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let account of myStateAccountData; let i = index">
+                        <th scope="row">{{account?.accountId}}</th>
+                        <td>{{account?.nickname}}</td>
+                        <td>{{account?.openStatus}}</td>
+                        <td>789456.11</td>
+                        <td>789496.11</td>
+                        <td>AUD</td>
+                        <td>
+                            <button type="button"
+                                class="btn btn-sm btn-link p-0" data-toggle="modal"
+                                >View Transactions
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <!-- Add Account Modal -->
@@ -51,30 +190,30 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title mx-auto">Choose Bank</h5>
+                <h5 class="modal-title mx-auto">Choose Your Bank</h5>
             </div>
             <div class="modal-body container">
                 <div class="row mx-auto pb-1">
                     <img class="img img-fluid my-auto h-2em pl-4 pr-2em" src="assets/images/cua.png">
-                    <button type="button" class="btn btn-info" (click)="goToConsentFlow()">
+                    <button type="button" class="btn btn-info square" (click)="goToConsentFlow()">
                         CUA Bank
                     </button>
                 </div>
                 <div class="row mx-auto pb-1">
                     <img class="img img-fluid my-auto h-1em px-3" src="assets/images/anz.png">
-                    <button type="button" class="btn btn-dark" disabled>
+                    <button type="button" class="btn btn-dark square" disabled>
                         ANZ Bank
                     </button>
                 </div>
                 <div class="row mx-auto pb-1">
                     <img class="img img-fluid my-auto h-2em pl-1 pr-2" src="assets/images/mystate.png">
-                    <button type="button" class="btn btn-dark" disabled>
+                    <button type="button" class="btn btn-dark square" disabled>
                         MyState Bank
                     </button>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-danger square-close" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
