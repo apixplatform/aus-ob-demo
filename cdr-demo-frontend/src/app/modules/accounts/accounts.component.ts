@@ -73,6 +73,9 @@ export class AccountsComponent implements OnInit {
     },
   ];
 
+  public barChartPlugins = [];
+  public pieChartPlugins = [];
+
   public barChartOptions = {
     responsive: true,
     defaultFontFamily: this.fontFamily,

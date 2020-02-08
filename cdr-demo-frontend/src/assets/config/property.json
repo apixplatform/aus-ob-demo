@@ -13,8 +13,5 @@
         "baseUrl": "https://cua.wso2support.com:8243",
         "tokenEndpoint": "/token",
         "accountsEndpoint": "/cds-au/v1/banking/accounts"
-    },
-    "apiRoutes": {
-        "apiBaseUrl": "https://18.221.135.54:8243/cds-au/v1/banking/accounts"
     }
 }

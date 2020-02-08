@@ -24,7 +24,9 @@ module.exports = {
 function generateSsa(req, res) {
   
   req.body.jti = uuidv4();
-  req.body.software_id = uniqueString();
+  // req.body.software_id = uniqueString();
+  req.body.software_id = req.body.client_name.replace(/[^a-zA-Z]/g, "");
+  console.log("Software ID: " + req.body.software_id);
 
   utilsService.generateSsa(
       req.body,
@@ -89,7 +91,7 @@ function generateAuthorizeUri(req, res) {
     context.app.get('EXPIRATION'),
     context.app.get('DCR_KID_VALUE')
   ).then(function (data){
-
+    //prompt=login to always pop login screen
     var uri = "https://" + context.app.get('WSO2_HOST') + ":" + context.app.get('WSO2_PORT') + "/authorize/?request=" + data + "&response_type=code%20id_token&client_id=" + req.body.client_id + "&scope=openid%20bank:accounts.basic :read%20bank:accounts.detail:read%20bank:transactions:read%20bank:payees:re ad%20bank:regular_payments:read%20common:customer.basic:read%20common :customer.detail:read&redirect_uri=" + req.body.redirect_uri + "&prompt=login";
     res.json({ data: uri });
   }).catch(function (err){
